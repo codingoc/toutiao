@@ -1,0 +1,7 @@
+target/
+*.war
+.settings/
+.classpath
+/bin/
+/build/
+upload/
