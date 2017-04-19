@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.river.toutiao.mapper.KmsUserMapper">
+  <resultMap id="BaseResultMap" type="com.river.toutiao.model.KmsUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="gender" jdbcType="BIT" property="gender" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="status" jdbcType="BIT" property="status" />
+    <result column="registtime" jdbcType="TIMESTAMP" property="registtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, username, gender, mobile, password, avatar, realname, status, registtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from kms_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from kms_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.river.toutiao.model.KmsUser">
+    insert into kms_user (id, username, gender, 
+      mobile, password, avatar, 
+      realname, status, registtime
+      )
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{gender,jdbcType=BIT}, 
+      #{mobile,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
+      #{realname,jdbcType=VARCHAR}, #{status,jdbcType=BIT}, #{registtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.river.toutiao.model.KmsUser">
+    insert into kms_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="avatar != null">
+        avatar,
+      </if>
+      <if test="realname != null">
+        realname,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="registtime != null">
+        registtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=BIT},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="registtime != null">
+        #{registtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.river.toutiao.model.KmsUser">
+    update kms_user
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=BIT},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="registtime != null">
+        registtime = #{registtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.river.toutiao.model.KmsUser">
+    update kms_user
+    set username = #{username,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=BIT},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      realname = #{realname,jdbcType=VARCHAR},
+      status = #{status,jdbcType=BIT},
+      registtime = #{registtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
