@@ -1,7 +1,16 @@
-target/
-*.war
-.settings/
+# Eclipse
 .classpath
-/bin/
-/build/
-upload/
+.project
+.settings/
+ 
+# Intellij
+.idea/
+*.iml
+*.iws
+ 
+# Mac
+.DS_Store
+ 
+# Maven
+log/
+target/
