@@ -17,31 +17,19 @@
 			expression="org.springframework.stereotype.Service" />
 	</context:component-scan>
 
-	<!-- 处理请求时返回json字符串的中文乱码问题 -->
+	<!-- 设置对字符串的消息转换器 -->
 	<mvc:annotation-driven>
 		<mvc:message-converters>
-			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
-				<property name="supportedMediaTypes">
-					<list>
-						<value>application/json;charset=UTF-8</value>
-					</list>
-				</property>
-			</bean>
+			<ref bean="stringHttpMessageConverter" />
+			<ref bean="marshallingHttpMessageConverter" />
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 
-	<!--避免IE执行AJAX时，返回JSON出现下载文件 -->
-	<bean id="mappingJacksonHttpMessageConverter"
-		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
-		<property name="supportedMediaTypes">
-			<list>
-				<value>text/html;charset=UTF-8</value>
-			</list>
-		</property>
-	</bean>
-
 	<bean id="stringHttpMessageConverter"
-		class="org.springframework.http.converter.StringHttpMessageConverter" />
+		class="org.springframework.http.converter.StringHttpMessageConverter">
+		<property name="supportedMediaTypes" value="text/html;charset=UTF-8"></property>
+		<property name="writeAcceptCharset" value="false"/>
+	</bean>
 
 	<bean id="marshallingHttpMessageConverter"
 		class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
@@ -49,21 +37,8 @@
 		<property name="unmarshaller" ref="castorMarshaller" />
 	</bean>
 
-	<bean id="mappingJackson2HttpMessageConverter"
-		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-		<property name="supportedMediaTypes">
-			<list>
-				<value>application/json</value>
-				<value>application/xml</value>
-				<value>text/html</value>
-				<value>text/plain</value>
-				<value>text/xml</value>
-			</list>
-		</property>
-	</bean>
-
 	<bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller" />
-	<!--信息转换 - 结束 -->
+	<!--设置对字符串的消息转换器 - 结束 -->
 
 	<bean id="contentNegotiationManagerFactoryBean"
 		class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
