@@ -1,29 +1,36 @@
 package com.river.toutiao.controller;
 
-import java.rmi.RemoteException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.decaywood.collector.MostProfitableCubeCollector;
-import org.decaywood.entity.Cube;
+import org.decaywood.collector.HuShenNewsRefCollector;
+import org.decaywood.collector.HuShenNewsRefCollector.Topic;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.fastjson.JSONObject;
+
 
 @Controller
 public class IndexController {
-    @RequestMapping(value = "/c/v1/index")
-    @ResponseBody
-    public String index() throws RemoteException {
-        MostProfitableCubeCollector collector = new MostProfitableCubeCollector();
-        List<Cube> cubes = collector.get();
-        return JSONObject.toJSONString(cubes, true);
-    }
-
-    public static void main(String[] args) throws RemoteException {
-        MostProfitableCubeCollector collector = new MostProfitableCubeCollector();
-        List<Cube> cubes = collector.get();
-        cubes.forEach((Cube cube) -> System.out.println(JSONObject.toJSONString(cube)));
+	
+	private List<URL> hotNewsList() {
+		try {
+			HuShenNewsRefCollector collector = new HuShenNewsRefCollector(Topic.TOTAL, 5);
+			List<URL> list = collector.get();
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<>();
+	}
+	
+    @RequestMapping(value = "/c")
+    public ModelAndView index() {
+    	List<URL> hotNewsList = hotNewsList();
+    	ModelAndView view = new ModelAndView("toutiao");
+    	view.addObject("hotNewsURLList", hotNewsList);
+        return view;
     }
 }
