@@ -10,27 +10,35 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-
+import com.alibaba.fastjson.JSONArray;
+import com.river.toutiao.util.RedisUtil;
 
 @Controller
 public class IndexController {
-	
-	private List<URL> hotNewsList() {
-		try {
-			HuShenNewsRefCollector collector = new HuShenNewsRefCollector(Topic.TOTAL, 5);
-			List<URL> list = collector.get();
-			return list;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new ArrayList<>();
-	}
-	
+
+    private List<URL> hotNewsList() {
+        try {
+            RedisUtil redisUtil = RedisUtil.sharedUtil();
+            String jsonArr = redisUtil.getString("news");
+            if (jsonArr != null && jsonArr.length() > 0) {
+                List<URL> urls = JSONArray.parseArray(jsonArr, URL.class);
+                return urls;
+            }
+            HuShenNewsRefCollector collector = new HuShenNewsRefCollector(Topic.TOTAL, 5);
+            List<URL> list = collector.get();
+            redisUtil.setString("news", JSONArray.toJSONString(list));
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
     @RequestMapping(value = "/c")
     public ModelAndView index() {
-    	List<URL> hotNewsList = hotNewsList();
-    	ModelAndView view = new ModelAndView("toutiao");
-    	view.addObject("hotNewsURLList", hotNewsList);
+        List<URL> hotNewsList = hotNewsList();
+        ModelAndView view = new ModelAndView("toutiao");
+        view.addObject("hotNewsURLList", hotNewsList);
         return view;
     }
 }

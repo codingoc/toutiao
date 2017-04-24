@@ -55,5 +55,6 @@
 	</bean>
 	
 	<!-- redis -->
-	<import resource="spring-jedis.xml" />
+	<!-- 代码中创建Redis -->
+	<!-- <import resource="spring-jedis.xml" /> -->
 </beans>  
