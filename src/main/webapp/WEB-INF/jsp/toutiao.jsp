@@ -8,8 +8,8 @@
 <title>财富头条</title>
 </head>
 <body>
-<c:forEach var="item" items="${hotNewsURLList}" varStatus="index">
-   <li> <a href="${item}">${index.index}</a></li>
+<c:forEach var="item" items="${hotNewsArticles}" varStatus="index">
+   <li> <a href="${item.originURL}">${item.title}</a></li>
 </c:forEach>
 </body>
 </html>

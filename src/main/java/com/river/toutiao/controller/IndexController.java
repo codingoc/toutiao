@@ -1,8 +1,10 @@
 package com.river.toutiao.controller;
 
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.decaywood.collector.HuShenNewsRefCollector;
 import org.decaywood.collector.HuShenNewsRefCollector.Topic;
@@ -12,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.river.toutiao.util.RedisUtil;
+import com.xueqiu.mapper.ArticleMapper;
+import com.xueqiu.model.Article;
 
 @Controller
 public class IndexController {
@@ -35,10 +39,12 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/c")
-    public ModelAndView index() {
+    public ModelAndView index() throws RemoteException {
         List<URL> hotNewsList = hotNewsList();
+        ArticleMapper mapper = new ArticleMapper();
+        List<Article> articles = hotNewsList.parallelStream().map(mapper).collect(Collectors.toList());
         ModelAndView view = new ModelAndView("toutiao");
-        view.addObject("hotNewsURLList", hotNewsList);
+        view.addObject("hotNewsArticles", articles);
         return view;
     }
 }
