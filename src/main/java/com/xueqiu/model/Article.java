@@ -13,6 +13,8 @@ public class Article {
     private String title;
     // 内容
     private String content;
+    // 摘要
+    private String summary;
 
     public String getAuthorName() {
         return authorName;
@@ -65,5 +67,13 @@ public class Article {
     @Override
     public String toString() {
         return this.title;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 }

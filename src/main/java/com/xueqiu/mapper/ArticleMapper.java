@@ -51,6 +51,9 @@ public class ArticleMapper extends AbstractMapper<URL, Article> {
             article.setTitle(titleEle.first().text());
             String content = contentDiv.select("div.detail").first().text();
             article.setContent(content);
+            Element summaryEle = contentDiv.select("div.detail > script").first();
+            String summary = summaryEle.data();
+            article.setSummary(summary);
             return article;
         } catch (Exception e) {
             e.printStackTrace();
