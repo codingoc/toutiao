@@ -9,8 +9,8 @@ import org.decaywood.timeWaitingStrategy.TimeWaitingStrategy;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
-import com.xueqiu.constant.Constant;
 import com.xueqiu.model.Article;
 
 public class ArticleMapper extends AbstractMapper<URL, Article> {
@@ -32,7 +32,8 @@ public class ArticleMapper extends AbstractMapper<URL, Article> {
 
     private Article processNode(URL t) {
         try {
-            Document document = Jsoup.connect(t.toString()).userAgent(Constant.UserAgent).get();
+            String html = request(t);
+            Document document = Jsoup.parse(html);
             Element authorHead = document.select("div.status-single-hd").first();
             Element contentDiv = document.select("div.status-content").first();
             if (authorHead == null || contentDiv == null) {
@@ -46,10 +47,16 @@ public class ArticleMapper extends AbstractMapper<URL, Article> {
             article.setAuthorAvatar(authorAvatar);
             String date = authorHead.select("div.subtitle > a").first().text();
             article.setPublishDate(date);
-            String title = contentDiv.select("h1.status-title").first().text();
-            article.setTitle(title);
+            Elements titleEle = contentDiv.select("h1.status-title");
+            if (titleEle == null || titleEle.isEmpty()) {
+                return null;
+            }
+            article.setTitle(titleEle.first().text());
             String content = contentDiv.select("div.detail").first().text();
             article.setContent(content);
+            Element summaryEle = contentDiv.select("div.detail > script").first();
+            String summary = summaryEle.data();
+            article.setSummary(summary);
             return article;
         } catch (Exception e) {
             e.printStackTrace();

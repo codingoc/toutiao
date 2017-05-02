@@ -4,6 +4,7 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.decaywood.collector.HuShenNewsRefCollector;
@@ -28,7 +29,7 @@ public class IndexController {
                 List<URL> urls = JSONArray.parseArray(jsonArr, URL.class);
                 return urls;
             }
-            HuShenNewsRefCollector collector = new HuShenNewsRefCollector(Topic.TOTAL, 5);
+            HuShenNewsRefCollector collector = new HuShenNewsRefCollector(Topic.TOTAL, 1);
             List<URL> list = collector.get();
             redisUtil.setString("news", JSONArray.toJSONString(list));
             return list;
@@ -42,7 +43,8 @@ public class IndexController {
     public ModelAndView index() throws RemoteException {
         List<URL> hotNewsList = hotNewsList();
         ArticleMapper mapper = new ArticleMapper();
-        List<Article> articles = hotNewsList.parallelStream().map(mapper).collect(Collectors.toList());
+        List<Article> articles = hotNewsList.parallelStream().map(mapper).filter(Objects::nonNull)
+                .collect(Collectors.toList());
         ModelAndView view = new ModelAndView("toutiao");
         view.addObject("hotNewsArticles", articles);
         return view;
