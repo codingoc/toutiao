@@ -3,6 +3,7 @@ package com.xueqiu.mapper;
 import java.net.URL;
 import java.rmi.RemoteException;
 
+import org.apache.log4j.Logger;
 import org.decaywood.mapper.AbstractMapper;
 import org.decaywood.timeWaitingStrategy.TimeWaitingStrategy;
 import org.jsoup.Jsoup;
@@ -13,6 +14,8 @@ import com.xueqiu.constant.Constant;
 import com.xueqiu.model.Article;
 
 public class ArticleMapper extends AbstractMapper<URL, Article> {
+
+    private static final Logger logger = Logger.getLogger(ArticleMapper.class);
 
     public ArticleMapper() throws RemoteException {
         this(null);
