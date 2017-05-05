@@ -39,7 +39,15 @@ public class IndexController {
         return new ArrayList<>();
     }
 
-    @RequestMapping(value = "/c")
+    /**
+     * 返回新闻头条数据
+     * @author: cc
+     * @Title: index
+     * @return
+     * @throws RemoteException
+     * ModelAndView    返回类型
+     */
+    @RequestMapping(value = "/t")
     public ModelAndView index() throws RemoteException {
         List<URL> hotNewsList = hotNewsList();
         ArticleMapper mapper = new ArticleMapper();
@@ -48,5 +56,17 @@ public class IndexController {
         ModelAndView view = new ModelAndView("toutiao");
         view.addObject("hotNewsArticles", articles);
         return view;
+    }
+
+    /**
+     * 返回热门stock
+     * @author: cc
+     * @Title: stock
+     * @return
+     * ModelAndView    返回类型
+     */
+    @RequestMapping(value = "/s")
+    public ModelAndView stock() {
+        return new ModelAndView();
     }
 }

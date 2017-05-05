@@ -1,31 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <footer class="bs-docs-footer">
-	<div class="container">
+	<div class="container text-center">
+		<p>特别感谢</p>
 		<ul class="bs-docs-footer-links">
-			<li><a href="https://github.com/twbs/bootstrap">GitHub 仓库</a></li>
-			<li><a href="../getting-started/#examples">实例</a></li>
-			<li><a href="http://www.youzhan.org">优站精选</a></li>
-			<li><a href="../about/">关于</a></li>
+			<li><a href="https://github.com/twbs/bootstrap">Bootstrap
+					GitHub 仓库</a></li>
 		</ul>
-
+		<p>本站所有内容均来源于互联网，仅供投资爱好者参考交流，如有侵权，请联系删除 QQ: 3168598325</p>
 		<p>
-			Designed and built with all the love in the world by <a
-				href="https://twitter.com/mdo" target="_blank">@mdo</a> and <a
-				href="https://twitter.com/fat" target="_blank">@fat</a>. Maintained
-			by the <a href="https://github.com/orgs/twbs/people">core team</a>
-			with the help of <a
-				href="https://github.com/twbs/bootstrap/graphs/contributors">our
-				contributors</a>.
+			<span class="glyphicon glyphicon-copyright-mark"></span>2017 之乎者也
 		</p>
-
-		<p>
-			本项目源码受 <a rel="license"
-				href="https://github.com/twbs/bootstrap/blob/master/LICENSE"
-				target="_blank">MIT</a>开源协议保护，文档受 <a rel="license"
-				href="https://creativecommons.org/licenses/by/3.0/" target="_blank">CC
-				BY 3.0</a> 开源协议保护。
-		</p>
-
 	</div>
 </footer>

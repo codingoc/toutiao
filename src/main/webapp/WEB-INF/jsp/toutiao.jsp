@@ -21,12 +21,14 @@
 	<jsp:include page="header.jsp" flush="true" />
 	<div class="container bs-docs-container">
 		<c:forEach var="item" items="${hotNewsArticles}" varStatus="index">
-			<div class="row">
-				<h4>${item.title }</h4>
-				<p>${item.summary }</p>
-				<figure class="highlight"> <pre>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">${item.title }</h3>
+				</div>
+				<div class="panel-body">${item.summary }</div>
+				<div class="panel-footer">
 					原文链接 <a href="${item.originURL }" target="_blank">${item.originURL }</a>
-				</pre></figure>
+				</div>
 			</div>
 		</c:forEach>
 	</div>
