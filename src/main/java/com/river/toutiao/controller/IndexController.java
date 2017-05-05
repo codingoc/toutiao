@@ -9,6 +9,9 @@ import java.util.stream.Collectors;
 
 import org.decaywood.collector.HuShenNewsRefCollector;
 import org.decaywood.collector.HuShenNewsRefCollector.Topic;
+import org.decaywood.collector.StockScopeHotRankCollector;
+import org.decaywood.collector.StockScopeHotRankCollector.Scope;
+import org.decaywood.entity.Stock;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,6 +24,13 @@ import com.xueqiu.model.Article;
 @Controller
 public class IndexController {
 
+    /**
+     * 最热新闻
+     * @author: cc
+     * @Title: hotNewsList
+     * @return
+     * List<URL>    返回类型
+     */
     private List<URL> hotNewsList() {
         try {
             RedisUtil redisUtil = RedisUtil.sharedUtil();
@@ -32,6 +42,8 @@ public class IndexController {
             HuShenNewsRefCollector collector = new HuShenNewsRefCollector(Topic.TOTAL, 1);
             List<URL> list = collector.get();
             redisUtil.setString("news", JSONArray.toJSONString(list));
+            // 1小时后过期
+            redisUtil.expire("news", 3600 * 1);
             return list;
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,7 +60,7 @@ public class IndexController {
      * ModelAndView    返回类型
      */
     @RequestMapping(value = "/t")
-    public ModelAndView index() throws RemoteException {
+    public ModelAndView toutiaoListPage() throws RemoteException {
         List<URL> hotNewsList = hotNewsList();
         ArticleMapper mapper = new ArticleMapper();
         List<Article> articles = hotNewsList.parallelStream().map(mapper).filter(Objects::nonNull)
@@ -59,6 +71,27 @@ public class IndexController {
     }
 
     /**
+     * 热门股票列表
+     * @author: cc
+     * @Title: hotStockList
+     * @param scope 市场类别
+     * @return
+     * List<Stock>    返回类型
+     * @throws RemoteException 
+     */
+    private List<Stock> hotStockList(Scope scope) {
+        StockScopeHotRankCollector collector;
+        try {
+            collector = new StockScopeHotRankCollector(scope);
+            List<Stock> stocks = collector.get();
+            return stocks;
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+    /**
      * 返回热门stock
      * @author: cc
      * @Title: stock
@@ -66,7 +99,10 @@ public class IndexController {
      * ModelAndView    返回类型
      */
     @RequestMapping(value = "/s")
-    public ModelAndView stock() {
-        return new ModelAndView();
+    public ModelAndView stockListPage() {
+        List<Stock> stocks = hotStockList(Scope.SH_SZ_WITHIN_1_HOUR);
+        ModelAndView view = new ModelAndView("stock");
+        view.addObject("hotStocksList", stocks);
+        return view;
     }
 }
