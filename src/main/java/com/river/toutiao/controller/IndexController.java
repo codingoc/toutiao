@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import org.decaywood.collector.HuShenNewsRefCollector;
 import org.decaywood.collector.HuShenNewsRefCollector.Topic;
-import org.decaywood.collector.StockScopeHotRankCollector;
 import org.decaywood.collector.StockScopeHotRankCollector.Scope;
 import org.decaywood.entity.Stock;
 import org.springframework.stereotype.Controller;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONArray;
+import com.river.collector.XGBStockCollector;
 import com.river.toutiao.util.RedisUtil;
 import com.xueqiu.mapper.ArticleMapper;
 import com.xueqiu.model.Article;
@@ -80,9 +80,9 @@ public class IndexController {
      * @throws RemoteException 
      */
     private List<Stock> hotStockList(Scope scope) {
-        StockScopeHotRankCollector collector;
+        XGBStockCollector collector;
         try {
-            collector = new StockScopeHotRankCollector(scope);
+            collector = new XGBStockCollector();
             List<Stock> stocks = collector.get();
             return stocks;
         } catch (RemoteException e) {

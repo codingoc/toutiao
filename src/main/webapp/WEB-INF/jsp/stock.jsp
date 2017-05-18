@@ -23,10 +23,14 @@
 	<div class="container bs-docs-container">
 		<ul class="list-group">
 			<c:forEach var="item" items="${hotStocksList}" varStatus="index">
-				<li class="list-group-item">
-					<h4 class="list-group-item-heading">${item.stockName }</h4>
-					<p class="list-group-item-text">${item.stockNo }</p>
-				</li>
+				<div class="bs-callout bs-callout-warning"
+					id="callout-inputgroup-form-labels">
+					<h4>${item.stockName }- ${item.stockNo }</h4>
+					<p>${item.comment }</p>
+					<p>
+						<a href="${item.originURL }" >原文链接</a>
+					</p>
+				</div>
 			</c:forEach>
 		</ul>
 	</div>
